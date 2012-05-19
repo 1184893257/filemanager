@@ -1,5 +1,6 @@
 package inter;
 
+import java.util.ArrayList;
 import java.util.TreeMap;
 
 /**
@@ -19,6 +20,7 @@ public interface FrontGUI {
 	/**
 	 * 完成统计后(或者中断后台后)将最终统计数据传回给前台
 	 * @param lists 包含各个区间的<b>子文件数--文件夹路径</b>键值对的Map数组
+	 * <br>因为不能new泛型类数组,故改变接口的参数
 	 */
-	public void complete(TreeMap<Integer,String>[] lists);
+	public void complete(ArrayList<TreeMap<Integer,String>> lists);
 }
