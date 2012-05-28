@@ -190,21 +190,21 @@ public class BackMain implements BackRunner, Runnable, ActionListener {
 			count(f);
 		}
 		timer.stop();
-		front.showStage(heights, scanned / (double) this.getFolderNum());
+		front.showStage(scanned / (double) this.getFolderNum());
 
 		// 先排序,然后返回各个区间的子文件数--文件夹路径
 		for (LinkedList<Folder> e : lists) {
 			Collections.sort(e);
 		}
 
-		front.complete(lists);
+		front.complete(heights, lists);
 		lists = null; // 解除引用,让JVM尽可能早的回收内存
 		queue.clear();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		front.showStage(heights, scanned / (double) this.getFolderNum());
+		front.showStage(scanned / (double) this.getFolderNum());
 	}
 
 }
