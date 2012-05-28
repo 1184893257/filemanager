@@ -2,8 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/yang/Desktop/人机交互大作业/java实现各种数据统计图（柱形图，饼图，折线图）/java实现各种数据统计图（柱形图，饼图，折线图）/testJFreeChart/lib/gnujaxp.jar"/>
-	<classpathentry kind="lib" path="C:/Users/yang/Desktop/人机交互大作业/java实现各种数据统计图（柱形图，饼图，折线图）/java实现各种数据统计图（柱形图，饼图，折线图）/testJFreeChart/lib/jcommon-1.0.16.jar"/>
-	<classpathentry kind="lib" path="C:/Users/yang/Desktop/人机交互大作业/java实现各种数据统计图（柱形图，饼图，折线图）/java实现各种数据统计图（柱形图，饼图，折线图）/testJFreeChart/lib/jfreechart-1.0.13.jar"/>
+	<classpathentry kind="lib" path="lib/gnujaxp.jar"/>
+	<classpathentry kind="lib" path="lib/jcommon-1.0.16.jar"/>
+	<classpathentry kind="lib" path="lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
