@@ -6,10 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.TreeMap;
-
 import javax.swing.Timer;
 
 /**
@@ -20,6 +19,11 @@ import javax.swing.Timer;
  * 
  */
 public class BackMain implements BackRunner, Runnable, ActionListener {
+	/**
+	 * 队列长度的限制,未免队列太长,浪费内存
+	 */
+	private static final int QueueLimit = 1000;
+
 	/**
 	 * 此接口的对象可代表前台
 	 */
@@ -39,7 +43,7 @@ public class BackMain implements BackRunner, Runnable, ActionListener {
 	/**
 	 * 扫描过的文件夹的信息(子文件数-父文件夹)
 	 */
-	protected ArrayList<TreeMap<Integer, String>> lists;
+	protected ArrayList<LinkedList<Folder>> lists;
 
 	/**
 	 * 负责统计运算的线程
@@ -57,6 +61,10 @@ public class BackMain implements BackRunner, Runnable, ActionListener {
 	 * 已经扫描过的文件夹数量
 	 */
 	protected int scanned;
+	/**
+	 * 计算文件夹数量的,另用一个线程来计算文件夹的数量,计算完毕后进度就更精准了
+	 */
+	protected CountFolder counter;
 
 	public BackMain() {
 		timer = new Timer(1000, this);
@@ -77,15 +85,27 @@ public class BackMain implements BackRunner, Runnable, ActionListener {
 		// 初始化相关成员变量
 		this.blocks = blocks;
 		queue = new LinkedList<File>();
-		while (!folders.isEmpty())
-			queue.add(new File(folders.remove()));
+
+		// 给CountFolder的拷贝版folders
+		Queue<String> copy = new LinkedList<String>();
+		String path;
+		while (!folders.isEmpty()) {
+			path = folders.remove();
+			queue.add(new File(path));
+			copy.add(path);
+		}
+
+		// 启动线程计算任务总数(文件夹数量)
+		counter = new CountFolder(copy);
+		Thread t = new Thread(counter);
+		t.start();
 
 		int i;
 		final int len = blocks.length;
 		heights = new int[len];
-		lists = new ArrayList<TreeMap<Integer, String>>(len);
+		lists = new ArrayList<LinkedList<Folder>>(len);
 		for (i = 0; i < len; ++i)
-			lists.add(new TreeMap<Integer, String>());
+			lists.add(new LinkedList<Folder>());
 
 		// 启动线程
 		runner = new Thread(this);
@@ -120,7 +140,7 @@ public class BackMain implements BackRunner, Runnable, ActionListener {
 			if (subs <= blocks[i][1])
 				break;
 
-		lists.get(i).put(subs, folder);
+		lists.get(i).add(new Folder(folder, subs));
 		heights[i]++;
 	}
 
@@ -138,8 +158,28 @@ public class BackMain implements BackRunner, Runnable, ActionListener {
 			e.printStackTrace();
 		}
 
+		final int size = queue.size();
 		for (File e : subs)
-			queue.add(e);
+			if (e.isDirectory()) // 文件夹才入队
+				if (size < QueueLimit)
+					queue.add(e); // 广度优先
+				else
+					count(e); // 深度优先
+	}
+
+	/**
+	 * 获得文件夹的总数量<br>
+	 * 也就是总的任务数,在counter计算完成之前,暂时用扫描过的数量与队列的大小的和来代替
+	 * 
+	 * @return 任务总数
+	 */
+	protected int getFolderNum() {
+		if (counter.finished)
+			return counter.num;
+		int t = scanned + queue.size();
+		if (counter.num > t)
+			return counter.num;
+		return t;
 	}
 
 	@Override
@@ -150,14 +190,21 @@ public class BackMain implements BackRunner, Runnable, ActionListener {
 			count(f);
 		}
 		timer.stop();
-		front.showStage(heights, scanned / (double) (scanned + queue.size()));
+		front.showStage(heights, scanned / (double) this.getFolderNum());
+
+		// 先排序,然后返回各个区间的子文件数--文件夹路径
+		for (LinkedList<Folder> e : lists) {
+			Collections.sort(e);
+		}
+
 		front.complete(lists);
+		lists = null; // 解除引用,让JVM尽可能早的回收内存
 		queue.clear();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		front.showStage(heights, scanned / (double) (scanned + queue.size()));
+		front.showStage(heights, scanned / (double) this.getFolderNum());
 	}
 
 }

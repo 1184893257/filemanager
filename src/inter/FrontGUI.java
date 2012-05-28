@@ -1,7 +1,7 @@
 package inter;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
+import java.util.LinkedList;
 
 /**
  * 此为前台需要实现的接口<br>
@@ -26,8 +26,9 @@ public interface FrontGUI {
 	 * 完成统计后(或者中断后台后)将最终统计数据传回给前台
 	 * 
 	 * @param lists
-	 *            包含各个区间的<b>子文件数--文件夹路径</b>键值对的Map数组 <br>
-	 *            因为不能new泛型类数组,故改变接口的参数
+	 *            包含各个区间的<b>子文件数--文件夹路径</b>键值对的数组 <br>
+	 *            因为不能new泛型类数组,故改变接口的参数 <br>
+	 *            不能用Map,因为Map中键是唯一的,不能将子文件数作为键
 	 */
-	public void complete(ArrayList<TreeMap<Integer, String>> lists);
+	public void complete(ArrayList<LinkedList<Folder>> lists);
 }
