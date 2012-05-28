@@ -14,7 +14,7 @@ public interface FrontGUI {
 	/**
 	 * 显示进度<br>
 	 * 在后台程序完成一部分统计工作时(一般是一定时间间隔后)触发事件,调用 此方法,显示当前进度
-	 * 
+	 * 在这个函数里实现进度条和柱状图的打印
 	 * @param heights
 	 *            各个区间现在的高度
 	 * @param finished
