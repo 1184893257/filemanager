@@ -20,10 +20,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableColumn;
 
 public class FolderTable extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -94,79 +93,30 @@ public class FolderTable extends JFrame implements ActionListener {
 		if (this.folderTable != null) // 已经有个区间在显示了
 			this.remove(pane);
 
-		// 新建一个表格
-		this.folderTable = new JTable(new FolderTableModel(lists.get(block)));
+		// 取得block区间的链表
+		LinkedList<Folder> list = lists.get(block);
+		final int size = list.size();
+
+		// 新建一个表格,size行,3列
+		this.folderTable = new JTable(size, 3);
+		int i;
+		Iterator<Folder> it = list.iterator();
+		Folder e;
+		for (i = 0; i < size; ++i) {
+			e = it.next();
+			folderTable.setValueAt(e.path, i, 0);
+			folderTable.setValueAt(e.subs, i, 1);
+		}
 
 		// 设置最后一列为一个按钮
-		TableColumnModel column = this.folderTable.getColumnModel();
-		final int i = column.getColumnCount() - 1;
-		column.getColumn(i).setCellRenderer(cell);
-		column.getColumn(i).setCellEditor(cell);
+		TableColumn column = this.folderTable.getColumnModel().getColumn(2);
+		column.setCellRenderer(cell);
+		column.setCellEditor(cell);
 
 		// 将新的表格添加到面板上
 		pane = new JScrollPane(folderTable);
 		this.add(pane, "Center");
 		pack();
-	}
-
-	/**
-	 * JTable的数据模型内部类<br>
-	 * 用于展示文件夹及其子文件数
-	 * 
-	 * @author lqy
-	 * 
-	 */
-	protected class FolderTableModel extends AbstractTableModel {
-		private static final long serialVersionUID = 1L;
-
-		String[] columnNames = { "文件夹路径", "子文件个数", "操作" };
-		Object[][] data;
-
-		/**
-		 * 使用Folder的链表,建立一个表格的数据模型
-		 * 
-		 * @param list
-		 *            LinkedList<Folder>对象,可代表一个区间
-		 */
-		public FolderTableModel(LinkedList<Folder> list) {
-			final int size = list.size();
-			data = new Object[size][3];
-
-			// 给第1、2列赋值
-			Iterator<Folder> it = list.iterator();
-			int i;
-			Folder f;
-			for (i = 0; i < size; ++i) {
-				f = it.next();
-				data[i][0] = f.path;
-				data[i][1] = f.subs;
-			}
-		}
-
-		public int getColumnCount() {
-			return columnNames.length;
-		}
-
-		public int getRowCount() {
-			return data.length;
-		}
-
-		public Object getValueAt(int row, int col) {
-			return data[row][col];
-		}
-
-		public String getColumnName(int col) {
-			return columnNames[col];
-		}
-
-		public Class<? extends Object> getColumnClass(int c) {
-			return getValueAt(0, c).getClass();
-		}
-
-		// 不允许修改任何单元
-		public boolean isCellEditable(int row, int col) {
-			return false;
-		}
 	}
 
 	/**
