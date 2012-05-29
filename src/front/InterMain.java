@@ -36,7 +36,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 
 	JPanel panel1 = new JPanel();// 实现进度条和按钮
 	JPanel panel2 = new JPanel();// 实现柱状图
-	JPanel panel3 = new JPanel();// 实现文件拖动框
+	FolderList panel3 = new FolderList();// 实现文件拖动框
 	MenuBar mb = new MenuBar();// 实现菜单
 	JProgressBar jp = new JProgressBar(0, 100);
 	JButton jb = new JButton("开始检测");
@@ -76,14 +76,14 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		panel1.add(jp);
 		panel1.add(jb);
 		jb.addActionListener(this);
-		panel1.setPreferredSize(new Dimension(300, 600));
+		//panel1.setPreferredSize(new Dimension(300, 600));
 		// 直方图
 		// 这是一个开始图片，使开始的界面美观一点
 		ImageIcon img = new ImageIcon(
 				"C:\\Users\\yang\\Desktop\\其他\\2008-0828v14841C.jpg");
 		JLabel jl = new JLabel(img);
 		panel2.add(jl);
-		panel2.setPreferredSize(new Dimension(600, 400));
+		//panel2.setPreferredSize(new Dimension(600, 400));
 		// 文件拖选框
 		/*
 		 * 这里要是先文件拖选框，主要是实现Queue<String> folders的设置
@@ -94,7 +94,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		this.add(panel1, "North");
 		this.add(panel2, "West");
 		this.add(panel3, "East");
-		this.setPreferredSize(new Dimension(900, 600));
+		//this.setPreferredSize(new Dimension(900, 600));
 		this.setTitle("文件优化管理系统");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
