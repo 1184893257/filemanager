@@ -1,4 +1,5 @@
 /bin
+/lib
 *.exe
 *.sh
 *.bak
