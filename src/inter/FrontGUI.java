@@ -30,5 +30,5 @@ public interface FrontGUI {
 	 *            因为不能new泛型类数组,故改变接口的参数 <br>
 	 *            不能用Map,因为Map中键是唯一的,不能将子文件数作为键
 	 */
-	public void complete(int[] heights, ArrayList<LinkedList<Folder>> lists);
+	public void complete(int[]heights, ArrayList<LinkedList<Folder>> lists);
 }

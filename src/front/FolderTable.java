@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableCellEditor;
@@ -99,7 +100,7 @@ public class FolderTable extends JFrame implements ActionListener {
 		column.getColumn(i).setCellEditor(cell);
 
 		// 将新的表格添加到面板上
-		this.add(folderTable, "Center");
+		this.add(new JScrollPane(folderTable), "Center");
 		pack();
 	}
 
