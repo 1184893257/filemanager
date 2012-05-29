@@ -1,5 +1,6 @@
 /bin
 /lib
+/img
 *.exe
 *.sh
 *.bak
