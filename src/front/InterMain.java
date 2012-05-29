@@ -102,16 +102,19 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		blocks=new int[][]{{0,5},{6,10},{11,15},{16,20},{21,1000}};
 		// 进度条和按钮
 		panel1.add(jp);
+		jp.setValue(0);
+		jp.setPreferredSize(new Dimension(400,50));
 		panel1.add(jb);
 		jb.addActionListener(this);
-		//panel1.setPreferredSize(new Dimension(300, 600));
+		panel1.setPreferredSize(new Dimension(910, 70));
+		panel1.setBackground(Color.white);
 		// 直方图
 		// 这是一个开始图片，使开始的界面美观一点
-		ImageIcon img = new ImageIcon(
-				"img\\2008-0828v14841C.jpg");
+		ImageIcon img = new ImageIcon("img\\封面2.jpg");
 		JLabel jl = new JLabel(img);
-		panel2.add(jl);
-		//panel2.setPreferredSize(new Dimension(600, 400));
+		panel2.setLayout(new BorderLayout());
+		panel2.add(jl,"Center");
+		panel2.setPreferredSize(new Dimension(630, 450));
 		// 文件拖选框
 		/*
 		 * 这里要是先文件拖选框，主要是实现Queue<String> folders的设置
@@ -123,10 +126,11 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		this.add(panel1, "North");
 		this.add(panel2, "West");
 		this.add(panel3, "East");
-		//this.setPreferredSize(new Dimension(900, 600));
-		this.setTitle("文件优化管理系统");
+		this.setPreferredSize(new Dimension(910, 520));
+		this.setTitle("文件系统优化工具");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
+		this.setLocation(300,150);
 	}
 
 	/**
@@ -203,8 +207,10 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			jb_cancel.addActionListener(this);
 			
 			JF_second.setTitle("请输入文件数的区间");
-			JF_second.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JF_second.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			JF_second.pack();
+            
+            JF_second.setLocation(500,300); 
 			JF_second.setVisible(true);
 		}
 		else if(e.getActionCommand().equals("help"))
@@ -215,15 +221,18 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			JF_third=new JFrame();
 			JLabel label_help=new JLabel("<html><p>操作手册：</p>" +
 					                     "<p>1.用户可以通过操作中的设置来自行改变统计时各区间的文件数</p>" +
-					                     "如果用户没有设置就将用默认值（0-5，6-10,11-15,16-20,20--）" +
+					                     "如果用户没有设置就将用默认值（0-5，6-10,11-15,16-20,20-1000）" +
 					                     "<p>2.将用户想要检测的文件夹拖进右边的方框中即可</p>" +
 					                     "<p>3.当设置完后，按开始测试按键就开始检测所选的文件夹及其子文件夹</p>" +
 					                     "<p>4.进度条读完后，会出来一个柱状图，用户可以通过按钮来浏览各个柱状图所包含的文件夹</p>" +
 					                     "<p>5.进入文件夹列表后，可以通过点击来到达所点目录，然后根据自己需要进行文件夹的调整</p>");
+			label_help.setFont(new Font("黑体", Font.BOLD, 20));
 			JF_third.add(label_help);
 			JF_third.setTitle("帮助");
 			JF_third.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			JF_third.pack();
+			JF_third.setLocation(380,300);
+			JF_third.setPreferredSize(new Dimension(600, 520));
 			JF_third.setVisible(true);
 			
 		}
@@ -235,11 +244,13 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			JF_fourth=new JFrame();
 			//JLabel mylabel=new JLabel("author:" +"/n"+"杨延中"+"刘乔羽"+"/n"+"2012.6.1");
 			JLabel label_beizhu=new JLabel("<html><p>作品名称：文件优化管理软件</p><p>作者：刘乔羽  杨延中 周旭</p><p>时间：2012.6.1(儿童节)</p></html>");
+			label_beizhu.setFont(new Font("黑体", Font.BOLD, 20));
 			JF_fourth.add(label_beizhu);
 			JF_fourth.setTitle("备注");
 			JF_fourth.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			JF_fourth.setSize(500,200);
 			JF_fourth.pack();
+			JF_fourth.setLocation(500,300);
 			JF_fourth.setVisible(true);
 		}
 		else if(e.getActionCommand().equals("commit"))
@@ -252,6 +263,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 					blocks[i][j]=Integer.parseInt(mytext[i][j].getText());
 				}
 			}
+			System.out.println("ok!");
 			JF_second.dispose();
 		}
 		else if(e.getActionCommand().equals("cancel"))
