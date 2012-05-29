@@ -120,6 +120,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		 * 这里要是先文件拖选框，主要是实现Queue<String> folders的设置
 		 */
 		buildPanel3();
+		panel3.setPreferredSize(new Dimension(259, 387));
 		// 这个先空着就是在panel3里面加东西
 		setLayout(new BorderLayout());
 		this.setJMenuBar(mb);
@@ -177,7 +178,6 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		} else if (cmd.equals("停止")) // 停止按钮
 		{
 			back.stopCal();
-			jb.setText("开始检测");
 		} else if (cmd.equals("显示详细信息")) {
 			@SuppressWarnings("unused")
 			FolderTable table=new FolderTable(blocks, result);
@@ -194,7 +194,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			{
 				mytext[i][0]=new JTextField(Integer.toString(blocks[i][0]));
 				mytext[i][1]=new JTextField(Integer.toString(blocks[i][1]));
-				JF_second.add(new Label("第"+i+1+"个区间"));
+				JF_second.add(new Label("第"+(i+1)+"个区间"));
 				JF_second.add(mytext[i][0]);
 				JF_second.add(mytext[i][1]);
 			}
@@ -284,7 +284,8 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		show.setEnabled(true);
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 1; i <= 5; i++) {
-			dataset.addValue(heights[i - 1], "", (new Integer(i)).toString());
+			dataset.addValue(heights[i - 1], blocks[i - 1][0] + "-"
+					+ blocks[i - 1][1], "");
 		}
 		JFreeChart chart = ChartFactory.createBarChart3D("统计结果", // 表名字
 				"区间号", // 横坐标名称
@@ -304,7 +305,9 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		chart.getTitle().setFont(new Font("宋体", Font.BOLD, 20));// 设置标题字体
 		remove(panel2);
 		panel2 = new ChartPanel(chart, true);
+		panel2.setPreferredSize(new Dimension(630, 450));
 		add(panel2, "West");
+		jb.setText("开始检测");
 		pack();
 	}
 

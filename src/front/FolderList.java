@@ -45,12 +45,18 @@ public class FolderList extends JPanel implements ActionListener {
 	}
 
 	/**
-	 * 获取顶层文件夹路径
+	 * 获取顶层文件夹路径<br>
+	 * 返回拷贝版本,以免列表中的队列被清空
 	 * 
 	 * @return
 	 */
 	public Queue<String> getFolders() {
-		return list.folders;
+		Queue<String> ans = new LinkedList<String>();
+		Iterator<String> it;
+		it = list.folders.iterator();
+		while (it.hasNext())
+			ans.add(it.next());
+		return ans;
 	}
 
 	/**
