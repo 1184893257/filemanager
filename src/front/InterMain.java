@@ -189,7 +189,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 					                     "<p>5.进入文件夹列表后，可以通过点击来到达所点目录，然后根据自己需要进行文件夹的调整</p>");
 			JF_third.add(label_help);
 			JF_third.setTitle("帮助");
-			JF_third.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JF_third.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			JF_third.pack();
 			JF_third.setVisible(true);
 			
@@ -204,7 +204,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			JLabel label_beizhu=new JLabel("<html><p>作品名称：文件优化管理软件</p><p>作者：刘乔羽  杨延中 周旭</p><p>时间：2012.6.1(儿童节)</p></html>");
 			JF_fourth.add(label_beizhu);
 			JF_fourth.setTitle("备注");
-			JF_fourth.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JF_fourth.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			JF_fourth.setSize(500,200);
 			JF_fourth.pack();
 			JF_fourth.setVisible(true);
