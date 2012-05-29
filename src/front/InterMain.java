@@ -65,6 +65,10 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		mb.add(set);
 		mb.add(help);
 		mb.add(beizhu);
+		// 时间监听器
+		set.addActionListener(this);
+		help.addActionListener(this);
+		beizhu.addActionListener(this);
 		/*
 		 * 这里应该实现菜单的点击事件 尤其是设置操作，要返回int[][] blocks;
 		 */
