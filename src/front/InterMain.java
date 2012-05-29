@@ -54,11 +54,14 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 	JMenuItem help=new JMenuItem("帮助");
 	JMenuItem beizhu=new JMenuItem("备注");
 
-	int Button_flag = 0;// 用于标记button的状态，为0是没有运行程序，1是正在运行程序
-
 	// 用于存储的一些变量
 	int[][] blocks;
 	Queue<String> folders;
+	
+	/**
+	 * 后台统计完毕返回的各个区间 文件夹-子文件数 结果
+	 */
+	protected ArrayList<LinkedList<Folder>> result;
 
 	protected BackMain back;
 
@@ -86,7 +89,6 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		beizhu.addActionListener(this);
 		int[][] blocks={{0,5},{6,10},{11,15},{16,20},{21,1000}};
 		// 进度条和按钮
-		jb.setActionCommand("Button");
 		panel1.add(jp);
 		panel1.add(jb);
 		jb.addActionListener(this);
@@ -117,21 +119,13 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		if(e.getActionCommand().equals("Button"))
+		if (e.getActionCommand().equals("开始检测")) {
+			back.startCal(blocks, panel3.getFolders());
+			jb.setText("停止");
+		} else if (e.getActionCommand().equals("停止")) // 停止按钮
 		{
-			if (Button_flag == 0)// 开始按钮
-			{
-				back.startCal(blocks, folders);
-				jb.setText("停止");
-				Button_flag = 1;
-			} 
-			else // 停止按钮
-			{
-				back.stopCal();
-				jb.setText("开始检测");
-				Button_flag = 0;
-			}
+			back.stopCal();
+			jb.setText("开始检测");
 		}
 		else if(e.getActionCommand().equals("set"))
 		{
@@ -217,14 +211,13 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 
 	@Override
 	public void showStage(double finished) {
-		// TODO Auto-generated method stub
 		int temp = (int) (finished * 100);
 		jp.setValue(temp);
 	}
 
 	@Override
 	public void complete(int[] heights, ArrayList<LinkedList<Folder>> lists) {
-		// TODO Auto-generated method stub
+		this.result = lists;
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 1; i <= 5; i++) {
 			dataset.addValue(heights[i - 1], "", (new Integer(i)).toString());
