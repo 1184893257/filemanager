@@ -112,10 +112,14 @@ public class FolderList extends JPanel implements ActionListener {
 							.getTransferData(DataFlavor.javaFileListFlavor));
 					Iterator<File> it = list.iterator();
 					String path;
+					File f;
 					while (it.hasNext()) {
-						path = it.next().getCanonicalPath();
-						folders.add(path);
-						model.addElement(path);
+						f = it.next();
+						if (f.isDirectory()) {
+							path = f.getCanonicalPath();
+							folders.add(path);
+							model.addElement(path);
+						}
 					}
 					int size = model.getSize();
 					if (size > 0)
