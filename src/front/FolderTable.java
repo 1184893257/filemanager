@@ -44,6 +44,10 @@ public class FolderTable extends JFrame implements ActionListener {
 	 * 区间选择框
 	 */
 	protected JComboBox<String> box;
+	/**
+	 * 包裹表格的JScrollPane
+	 */
+	protected JScrollPane pane;
 
 	/**
 	 * 弹出新窗体显示一个区间的文件夹-子文件数
@@ -88,7 +92,7 @@ public class FolderTable extends JFrame implements ActionListener {
 	 */
 	protected void setTable(int block) {
 		if (this.folderTable != null) // 已经有个区间在显示了
-			this.remove(folderTable);
+			this.remove(pane);
 
 		// 新建一个表格
 		this.folderTable = new JTable(new FolderTableModel(lists.get(block)));
@@ -100,7 +104,8 @@ public class FolderTable extends JFrame implements ActionListener {
 		column.getColumn(i).setCellEditor(cell);
 
 		// 将新的表格添加到面板上
-		this.add(new JScrollPane(folderTable), "Center");
+		pane = new JScrollPane(folderTable);
+		this.add(pane, "Center");
 		pack();
 	}
 
@@ -125,7 +130,7 @@ public class FolderTable extends JFrame implements ActionListener {
 		 */
 		public FolderTableModel(LinkedList<Folder> list) {
 			final int size = list.size();
-			data = new Object[size][2];
+			data = new Object[size][3];
 
 			// 给第1、2列赋值
 			Iterator<Folder> it = list.iterator();
