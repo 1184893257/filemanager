@@ -37,12 +37,22 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 	JPanel panel1 = new JPanel();// 实现进度条和按钮
 	JPanel panel2 = new JPanel();// 实现柱状图
 	JPanel panel3 = new JPanel();// 实现文件拖动框
-	MenuBar mb = new MenuBar();// 实现菜单
+	JMenuBar mb = new JMenuBar();// 实现菜单
 	JProgressBar jp = new JProgressBar(0, 100);
 	JButton jb = new JButton("开始检测");
-	Menu set = new Menu("设置");
-	Menu help = new Menu("帮助");
-	Menu beizhu = new Menu("备注");
+	
+	JButton jb_commit=new JButton("确定");//设置操作界面中用到的button，确定
+	JButton jb_cancel=new JButton("取消");//设置操作界面中用到的button，取消
+	JTextField[][] mytext;               //设置操作界面中用到
+	JFrame JF_second;                    //设置操作界面中用到
+	JFrame JF_third;					 //帮助的界面
+	JFrame JF_fourth;					 //备注的界面
+	
+	JMenu operate = new JMenu("操作");
+	JMenu other = new JMenu("其他");
+	JMenuItem set=new JMenuItem("设置");
+	JMenuItem help=new JMenuItem("帮助");
+	JMenuItem beizhu=new JMenuItem("备注");
 
 	int Button_flag = 0;// 用于标记button的状态，为0是没有运行程序，1是正在运行程序
 
@@ -62,17 +72,21 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 	 */
 	public InterMain() {
 		// 菜单
-		mb.add(set);
-		mb.add(help);
-		mb.add(beizhu);
+		operate.add(set);
+		other.add(help);
+		other.add(beizhu);
+		mb.add(operate);
+		mb.add(other);
 		// 时间监听器
+		set.setActionCommand("set");
+		help.setActionCommand("help");
+		beizhu.setActionCommand("beizhu");
 		set.addActionListener(this);
 		help.addActionListener(this);
 		beizhu.addActionListener(this);
-		/*
-		 * 这里应该实现菜单的点击事件 尤其是设置操作，要返回int[][] blocks;
-		 */
+		int[][] blocks={{0,5},{6,10},{11,15},{16,20},{21,1000}};
 		// 进度条和按钮
+		jb.setActionCommand("Button");
 		panel1.add(jp);
 		panel1.add(jb);
 		jb.addActionListener(this);
@@ -90,7 +104,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		 */
 		// 这个先空着就是在panel3里面加东西
 		setLayout(new BorderLayout());
-		this.setMenuBar(mb);
+		this.setJMenuBar(mb);
 		this.add(panel1, "North");
 		this.add(panel2, "West");
 		this.add(panel3, "East");
@@ -104,16 +118,100 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (Button_flag == 0)// 开始按钮
+		if(e.getActionCommand().equals("Button"))
 		{
-			back.startCal(blocks, folders);
-			jb.setText("停止");
-			Button_flag = 1;
-		} else // 停止按钮
+			if (Button_flag == 0)// 开始按钮
+			{
+				back.startCal(blocks, folders);
+				jb.setText("停止");
+				Button_flag = 1;
+			} 
+			else // 停止按钮
+			{
+				back.stopCal();
+				jb.setText("开始检测");
+				Button_flag = 0;
+			}
+		}
+		else if(e.getActionCommand().equals("set"))
 		{
-			back.stopCal();
-			jb.setText("开始检测");
-			Button_flag = 0;
+			/*
+			 * 这里弹出JtextFild
+			 */
+			mytext=new JTextField[5][2];
+			for(int i=0;i<5;i++)
+			{
+				for(int j=0;j<2;j++)
+					mytext[i][j]=new JTextField();
+			}
+			
+			JF_second=new JFrame();//重新创建一个Frame
+			JF_second.setLayout(new GridLayout(6,3));
+			JF_second.add(new Label("第一个区间"));
+			JF_second.add(mytext[0][0]);
+			JF_second.add(mytext[0][1]);
+			JF_second.add(new Label("第二个区间"));
+			JF_second.add(mytext[1][0]);
+			JF_second.add(mytext[1][1]);
+			JF_second.add(new Label("第三个区间"));
+			JF_second.add(mytext[2][0]);
+			JF_second.add(mytext[2][1]);
+			JF_second.add(new Label("第四个区间"));
+			JF_second.add(mytext[3][0]);
+			JF_second.add(mytext[3][1]);
+			JF_second.add(new Label("第五个区间"));
+			JF_second.add(mytext[4][0]);
+			JF_second.add(mytext[4][1]);
+			JF_second.add(jb_commit);
+			jb_commit.setActionCommand("commit");
+			jb_commit.addActionListener(this);
+			JF_second.add(jb_cancel);
+			jb_cancel.setActionCommand("cancel");
+			jb_cancel.addActionListener(this);
+			
+			JF_second.setTitle("请输入文件数的区间");
+			JF_second.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JF_second.pack();
+			JF_second.setVisible(true);
+		}
+		else if(e.getActionCommand().equals("help"))
+		{
+			/*
+			 * 这里弹出帮助栏
+			 */
+			JF_third=new JFrame();
+			JF_third.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JF_third.pack();
+			JF_third.setVisible(true);
+			
+		}
+		else if(e.getActionCommand().endsWith("beizhu"))
+		{
+			/*
+			 * 这里弹出备注
+			 */
+			JF_fourth=new JFrame();
+			JLabel mylabel=new JLabel("author:" +"/n"+"杨延中"+"刘乔羽"+"/n"+"2012.6.1");
+			JF_fourth.add(mylabel);
+			JF_fourth.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			JF_fourth.pack();
+			JF_fourth.setVisible(true);
+		}
+		else if(e.getActionCommand().equals("commit"))
+		{
+			//blocks=new int[5][2];
+			for(int i=0;i<5;i++)
+			{
+				for(int j=0;j<2;j++)
+				{
+					blocks[i][j]=Integer.parseInt(mytext[i][j].getText());
+				}
+			}
+			JF_second.dispose();
+		}
+		else if(e.getActionCommand().equals("cancel"))
+		{
+			JF_second.dispose();
 		}
 	}
 
