@@ -107,11 +107,10 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		panel1.add(jb);
 		jb.addActionListener(this);
 		panel1.setPreferredSize(new Dimension(910, 70));
-		//panel1.setBackground(Color.getHSBColor(177, 235, 240));
+		panel1.setBackground(Color.white);
 		// 直方图
 		// 这是一个开始图片，使开始的界面美观一点
-		ImageIcon img = new ImageIcon(
-				"img\\杨.jpg");
+		ImageIcon img = new ImageIcon("img\\封面2.jpg");
 		JLabel jl = new JLabel(img);
 		panel2.setLayout(new BorderLayout());
 		panel2.add(jl,"Center");
@@ -222,7 +221,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			JF_third=new JFrame();
 			JLabel label_help=new JLabel("<html><p>操作手册：</p>" +
 					                     "<p>1.用户可以通过操作中的设置来自行改变统计时各区间的文件数</p>" +
-					                     "如果用户没有设置就将用默认值（0-5，6-10,11-15,16-20,20-正无穷）" +
+					                     "如果用户没有设置就将用默认值（0-5，6-10,11-15,16-20,20-1000）" +
 					                     "<p>2.将用户想要检测的文件夹拖进右边的方框中即可</p>" +
 					                     "<p>3.当设置完后，按开始测试按键就开始检测所选的文件夹及其子文件夹</p>" +
 					                     "<p>4.进度条读完后，会出来一个柱状图，用户可以通过按钮来浏览各个柱状图所包含的文件夹</p>" +
