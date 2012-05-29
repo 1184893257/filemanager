@@ -290,7 +290,10 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		rangeAxis.setLabelFont(new Font("黑体", Font.BOLD, 15));
 		chart.getLegend().setItemFont(new Font("黑体", Font.BOLD, 15));
 		chart.getTitle().setFont(new Font("宋体", Font.BOLD, 20));// 设置标题字体
+		remove(panel2);
 		panel2 = new ChartPanel(chart, true);
+		add(panel2, "West");
+		pack();
 	}
 
 }
