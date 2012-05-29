@@ -2,6 +2,7 @@ package front;
 
 import back.*;
 
+import inter.BackRunner;
 import inter.Folder;
 import inter.FrontGUI;
 
@@ -36,7 +37,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 
 	JPanel panel1 = new JPanel();// 实现进度条和按钮
 	JPanel panel2 = new JPanel();// 实现柱状图
-	FolderList panel3 = new FolderList();// 实现文件拖动框
+	JPanel panel3 = new JPanel();// 实现文件拖动框
 	JMenuBar mb = new JMenuBar();// 实现菜单
 	JProgressBar jp = new JProgressBar(0, 100);
 	JButton jb = new JButton("开始检测");
@@ -62,8 +63,19 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 	 * 后台统计完毕返回的各个区间 文件夹-子文件数 结果
 	 */
 	protected ArrayList<LinkedList<Folder>> result;
-
-	protected BackMain back;
+	/**
+	 * 顶层文件夹列表
+	 */
+	protected FolderList fList;
+	/**
+	 * 弹出各区间详细信息
+	 */
+	protected JButton show;
+	/**
+	 * 后台<br>
+	 * 前台使用后台接口就够了
+	 */
+	protected BackRunner back;
 
 	/**
 	 * 在我这里这个木有用处，不用管了
@@ -87,7 +99,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		set.addActionListener(this);
 		help.addActionListener(this);
 		beizhu.addActionListener(this);
-		int[][] blocks={{0,5},{6,10},{11,15},{16,20},{21,1000}};
+		blocks=new int[][]{{0,5},{6,10},{11,15},{16,20},{21,1000}};
 		// 进度条和按钮
 		panel1.add(jp);
 		panel1.add(jb);
@@ -96,7 +108,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		// 直方图
 		// 这是一个开始图片，使开始的界面美观一点
 		ImageIcon img = new ImageIcon(
-				"C:\\Users\\yang\\Desktop\\其他\\2008-0828v14841C.jpg");
+				"img\\2008-0828v14841C.jpg");
 		JLabel jl = new JLabel(img);
 		panel2.add(jl);
 		//panel2.setPreferredSize(new Dimension(600, 400));
@@ -104,6 +116,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		/*
 		 * 这里要是先文件拖选框，主要是实现Queue<String> folders的设置
 		 */
+		buildPanel3();
 		// 这个先空着就是在panel3里面加东西
 		setLayout(new BorderLayout());
 		this.setJMenuBar(mb);
@@ -114,48 +127,74 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		this.setTitle("文件优化管理系统");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
+	}
+
+	/**
+	 * 前台初始化<br>
+	 * 将后台传给前台,从此前台可以调用后台
+	 * 
+	 * @param back
+	 */
+	public void frontInit(BackRunner back) {
+		this.back = back;
 		this.setVisible(true);
+	}
+	
+	protected void buildPanel3(){
+		GridBagLayout layout=new GridBagLayout();
+		GridBagConstraints c= new GridBagConstraints();
+		panel3.setLayout(layout);
+		
+		c.gridwidth=GridBagConstraints.REMAINDER;
+		c.gridy=GridBagConstraints.RELATIVE;
+		c.fill=GridBagConstraints.BOTH;
+		c.weightx=1.0;
+		c.weighty=0.0;
+		
+		show=new JButton("显示详细信息");
+		show.addActionListener(this);
+		show.setEnabled(false);
+		layout.setConstraints(show, c);
+		panel3.add(show);
+		
+		c.weighty=1.0;
+		fList = new FolderList();
+		layout.setConstraints(fList, c);
+		panel3.add(fList);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("开始检测")) {
-			back.startCal(blocks, panel3.getFolders());
+		String cmd = e.getActionCommand();
+		if (cmd.equals("开始检测")) {
+			show.setEnabled(false);
+			back.startCal(blocks, fList.getFolders());
 			jb.setText("停止");
-		} else if (e.getActionCommand().equals("停止")) // 停止按钮
+		} else if (cmd.equals("停止")) // 停止按钮
 		{
 			back.stopCal();
 			jb.setText("开始检测");
+		} else if (cmd.equals("显示详细信息")) {
+			@SuppressWarnings("unused")
+			FolderTable table=new FolderTable(blocks, result);
 		}
 		else if(e.getActionCommand().equals("set"))
 		{
+			JF_second=new JFrame();//重新创建一个Frame
+			JF_second.setLayout(new GridLayout(6,3));
 			/*
 			 * 这里弹出JtextFild
 			 */
 			mytext=new JTextField[5][2];
 			for(int i=0;i<5;i++)
 			{
-				for(int j=0;j<2;j++)
-					mytext[i][j]=new JTextField();
+				mytext[i][0]=new JTextField(Integer.toString(blocks[i][0]));
+				mytext[i][1]=new JTextField(Integer.toString(blocks[i][1]));
+				JF_second.add(new Label("第"+i+1+"个区间"));
+				JF_second.add(mytext[i][0]);
+				JF_second.add(mytext[i][1]);
 			}
 			
-			JF_second=new JFrame();//重新创建一个Frame
-			JF_second.setLayout(new GridLayout(6,3));
-			JF_second.add(new Label("第一个区间"));
-			JF_second.add(mytext[0][0]);
-			JF_second.add(mytext[0][1]);
-			JF_second.add(new Label("第二个区间"));
-			JF_second.add(mytext[1][0]);
-			JF_second.add(mytext[1][1]);
-			JF_second.add(new Label("第三个区间"));
-			JF_second.add(mytext[2][0]);
-			JF_second.add(mytext[2][1]);
-			JF_second.add(new Label("第四个区间"));
-			JF_second.add(mytext[3][0]);
-			JF_second.add(mytext[3][1]);
-			JF_second.add(new Label("第五个区间"));
-			JF_second.add(mytext[4][0]);
-			JF_second.add(mytext[4][1]);
 			JF_second.add(jb_commit);
 			jb_commit.setActionCommand("commit");
 			jb_commit.addActionListener(this);
@@ -218,6 +257,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 	@Override
 	public void complete(int[] heights, ArrayList<LinkedList<Folder>> lists) {
 		this.result = lists;
+		show.setEnabled(true);
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
 		for (int i = 1; i <= 5; i++) {
 			dataset.addValue(heights[i - 1], "", (new Integer(i)).toString());
