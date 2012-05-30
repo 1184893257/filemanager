@@ -94,7 +94,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		set.addActionListener(this);
 		help.addActionListener(this);
 		beizhu.addActionListener(this);
-		blocks=new int[][]{{0,5},{6,10},{11,15},{16,20},{21,1000}};
+		blocks=new int[][]{{0,5},{6,10},{11,15},{16,20},{21,10000000}};
 		// 进度条和按钮
 		panel1.add(jp);
 		jp.setValue(0);

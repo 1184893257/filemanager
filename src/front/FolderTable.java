@@ -107,7 +107,6 @@ public class FolderTable extends JFrame implements ActionListener {
 		this.add(pane, "Center");
 		pack();
 	}
-	
 
 	/**
 	 * JTable的数据模型内部类<br>
@@ -164,7 +163,9 @@ public class FolderTable extends JFrame implements ActionListener {
 		}
 
 		public boolean isCellEditable(int row, int col) {
-			return true;
+			if (col == 2)
+				return true;
+			return false;
 		}
 	}
 
