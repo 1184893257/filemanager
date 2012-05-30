@@ -1,7 +1,5 @@
 package front;
 
-import back.*;
-
 import inter.BackRunner;
 import inter.Folder;
 import inter.FrontGUI;
@@ -9,9 +7,7 @@ import inter.FrontGUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -24,7 +20,6 @@ import org.jfree.chart.axis.CategoryAxis;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
@@ -120,14 +115,14 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		 * 这里要是先文件拖选框，主要是实现Queue<String> folders的设置
 		 */
 		buildPanel3();
-		panel3.setPreferredSize(new Dimension(259, 387));
+		panel3.setPreferredSize(new Dimension(280, 450));
 		// 这个先空着就是在panel3里面加东西
 		setLayout(new BorderLayout());
 		this.setJMenuBar(mb);
 		this.add(panel1, "North");
 		this.add(panel2, "West");
 		this.add(panel3, "East");
-		this.setPreferredSize(new Dimension(910, 520));
+		//this.setPreferredSize(new Dimension(910, 520));
 		this.setTitle("文件系统优化工具");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.pack();
@@ -179,8 +174,9 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 		{
 			back.stopCal();
 		} else if (cmd.equals("显示详细信息")) {
-			@SuppressWarnings("unused")
 			FolderTable table=new FolderTable(blocks, result);
+			table.setLocation(this.getLocation());
+			table.setVisible(true);
 		}
 		else if(e.getActionCommand().equals("set"))
 		{
@@ -230,9 +226,9 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			JF_third.add(label_help);
 			JF_third.setTitle("帮助");
 			JF_third.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			JF_third.pack();
 			JF_third.setLocation(380,300);
-			JF_third.setPreferredSize(new Dimension(600, 520));
+			JF_third.setPreferredSize(new Dimension(1000, 520));
+			JF_third.pack();
 			JF_third.setVisible(true);
 			
 		}
@@ -248,7 +244,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			JF_fourth.add(label_beizhu);
 			JF_fourth.setTitle("备注");
 			JF_fourth.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			JF_fourth.setSize(500,200);
+			JF_fourth.setPreferredSize(new Dimension(500,200));
 			JF_fourth.pack();
 			JF_fourth.setLocation(500,300);
 			JF_fourth.setVisible(true);

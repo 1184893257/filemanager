@@ -71,6 +71,7 @@ public class FolderTable extends JFrame implements ActionListener {
 					+ Integer.toString(blocks[i][1]);
 		}
 		box = new JComboBox<String>(items);
+		box.setSelectedIndex(size - 1);
 		box.addActionListener(this);
 
 		JPanel top = new JPanel();
@@ -78,9 +79,8 @@ public class FolderTable extends JFrame implements ActionListener {
 		top.add(box);
 		add(top, "North");
 
-		this.setTable(0);
+		this.setTable(size - 1);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.setVisible(true);
 	}
 
 	/**
