@@ -184,6 +184,10 @@ public class FolderTable extends JFrame implements ActionListener {
 		 */
 		protected JButton open;
 		/**
+		 * 供显示用
+		 */
+		protected JButton open2;
+		/**
 		 * Desktop对象<br>
 		 * Desktop对象提供图形环境的一些方法
 		 */
@@ -193,6 +197,7 @@ public class FolderTable extends JFrame implements ActionListener {
 			open = new JButton("打开此文件夹");
 			open.addActionListener(this);
 			desk = Desktop.getDesktop();
+			open2=new JButton("打开此文件夹");
 		}
 
 		@Override
@@ -210,7 +215,7 @@ public class FolderTable extends JFrame implements ActionListener {
 		public Component getTableCellRendererComponent(JTable table,
 				Object value, boolean isSelected, boolean hasFocus, int row,
 				int column) {
-			return open;
+			return open2;
 		}
 
 		@Override
