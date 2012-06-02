@@ -1,6 +1,9 @@
 package front;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DnDConstants;
@@ -22,7 +25,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 public class FolderList extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -40,8 +42,8 @@ public class FolderList extends JPanel implements ActionListener {
 		add(clear, "North");
 		clear.addActionListener(this);
 
-		list = new DragList();
-		add(new JScrollPane(list), "Center");
+		list = new DragList("请将要检查的文件夹拖放于此");
+		add(list, "Center");
 	}
 
 	/**
@@ -75,8 +77,13 @@ public class FolderList extends JPanel implements ActionListener {
 		 * JList的数据模型
 		 */
 		protected DefaultListModel<String> model;
+		/**
+		 * 要在JList中间显示的文本
+		 */
+		protected String text;
 
-		public DragList() {
+		public DragList(String text) {
+			this.text = text;
 			folders = new LinkedList<String>();
 			model = new DefaultListModel<String>();
 			this.setModel(model);
@@ -90,6 +97,22 @@ public class FolderList extends JPanel implements ActionListener {
 			model.clear();
 			folders.clear();
 			this.updateUI();
+		}
+
+		@Override
+		public void paint(Graphics g) {
+			super.paint(g);
+			int count = this.getModel().getSize();
+			if (0 == count) {
+				Dimension size = this.getSize();
+				int x, y;
+				y = size.height / 2;
+
+				FontMetrics fm = this.getFontMetrics(this.getFont());
+				x = (size.width - fm.stringWidth(text)) / 2;
+
+				g.drawString(text, x, y);
+			}
 		}
 
 		@Override
