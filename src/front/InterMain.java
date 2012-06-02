@@ -220,13 +220,14 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 					                     "如果用户没有设置就将用默认值（0-5，6-10,11-15,16-20,20-1000）" +
 					                     "<p>2.将用户想要检测的文件夹拖进右边的方框中即可</p>" +
 					                     "<p>3.当设置完后，按开始测试按键就开始检测所选的文件夹及其子文件夹</p>" +
-					                     "<p>4.进度条读完后，会出来一个柱状图，用户可以通过按钮来浏览各个柱状图所包含的文件夹</p>" +
+					                     "<p>4.进度条读完后，会出来一个描述各个区间文件夹数的柱状图，用户可以通过右边的</p>" +
+					                     "<p>“显示详细信息”按钮来浏览各个柱状图所包含的文件夹</p>" +
 					                     "<p>5.进入文件夹列表后，可以通过点击来到达所点目录，然后根据自己需要进行文件夹的调整</p>");
 			label_help.setFont(new Font("黑体", Font.BOLD, 20));
 			JF_third.add(label_help);
 			JF_third.setTitle("帮助");
 			JF_third.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			JF_third.setLocation(380,300);
+			JF_third.setLocation(280,200);
 			JF_third.setPreferredSize(new Dimension(1000, 520));
 			JF_third.pack();
 			JF_third.setVisible(true);
@@ -239,7 +240,7 @@ public class InterMain extends JFrame implements FrontGUI, ActionListener {
 			 */
 			JF_fourth=new JFrame();
 			//JLabel mylabel=new JLabel("author:" +"/n"+"杨延中"+"刘乔羽"+"/n"+"2012.6.1");
-			JLabel label_beizhu=new JLabel("<html><p>作品名称：文件优化管理软件</p><p>作者：刘乔羽  杨延中 周旭</p><p>时间：2012.6.1(儿童节)</p></html>");
+			JLabel label_beizhu=new JLabel("<html><p>作品名称：文件夹优化工具</p><p>作           者：刘乔羽  杨延中 周旭</p><p>发布时间：2012.6.1(儿童节)</p></html>");
 			label_beizhu.setFont(new Font("黑体", Font.BOLD, 20));
 			JF_fourth.add(label_beizhu);
 			JF_fourth.setTitle("备注");
